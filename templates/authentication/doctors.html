@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <style>
+        /* Custom CSS for image and button alignment */
+        .custom-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .custom-left {
+            flex: 1;
+        }
+
+        .custom-right {
+            flex: 1;
+            text-align: right;
+        }
+
+        .custom-button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+
+    <title>MedTech | Doctors</title>
+</head>
+<body>
+    {%load static%}
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand text-light" href="/home">MedTech</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active text-light" aria-current="page" href="/home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="/doctors">Doctors</a>
+                    </li>
+                    <li class="nav-item">
+                        {% if user.is_authenticated %}
+                        {% comment %} <span class="nav-link text-light">Hello {{ fname }} You are successfully logged in</span> {% endcomment %}
+                        <a href="/signout" class="nav-link text-light">Sign out</a>
+                        {% else %}
+                        <li class="nav-item">
+                            <a href="/signup" class="nav-link text-light">Sign Up</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/signin" class="nav-link text-light">Login</a>
+                        </li>
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    
+    <div class="custom-container bg-light" style="margin-top: 10vh;">
+        <div class="custom-left">
+            <img src="{% static 'images/grdr.jpg' %}" alt="Image" style="width: 45vw;">
+        </div>
+        <div class="custom-right">
+            <h1 style="text-align: left;">We Take Care of Your Health</h1>
+            <p style="text-align: justify;">Discover our team of experienced and dedicated medical professionals at MedTech. We take pride in assembling a group of highly skilled doctors who bring years of expertise and a compassionate approach to patient care. Whether you're seeking specialized treatment or routine medical advice, you can trust our experienced doctors to provide you with the highest quality healthcare. Your well-being is our top priority, and our team is here to guide you on your journey to optimal health</p>
+        </div>
+    </div>
+
+    <div class="container">
+        {% if user.is_authenticated %}
+            <a href="/predict" class="btn btn-primary" style="margin-top: 10vh; width: 30vw; text-align: left;">Use Our Prediction System</a>
+        {% else %}
+        <a href="/signin" class="btn btn-primary" style="margin-top: 10vh; width: 30vw; text-align: left;">Use Our Prediction System</a>
+    </div>
+    {% endif %}
+    
+    <h1 style="text-align: center;">Find Doctors</h1>
+    
+    <div class="container mt-4 mb-4">
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for doctor in doctors %}
+            <div class="col">
+                <div class="card">
+                    <img src="{{ doctor.doctor_image.url }}" alt="Image">
+                    <div class="card-body">
+                        <h1 class="card-title">{{ doctor.doctor_name }}</h1>
+                        <h3>{{ doctor.doctor_speciality }}</h3>
+                        <p>Experience: {{ doctor.experience }} years</p>
+                        <p>Fee: Rs. {{ doctor.doctor_fee }}</p>
+                        <hr>
+                        <button type="button" class="btn btn-primary">
+                            <a href="{% url 'view_profile' doctor.doctor_username %}" style="color: white; text-decoration: none">View Profile</a>
+                        </button>
+                        {% comment %} <a href="{% url 'book_appointment' doctor.id %}" class="custom-button">Book Appointment</a> {% endcomment %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    
+    
+    
+    
+    
+
+      <footer class="bg-dark text-light">
+    <div class="container py-4">
+        <div class="row">
+            <div class="col-md-6">
+                <h4 style="text-decoration: underline;">Contact Us</h4>
+                <p>Email: contact@medtech.com</p>
+                <p>Phone: +1 (123) 456-7890</p>
+            </div>
+            <div class="col-md-6">
+                <h4 style="text-decoration: underline;">Follow Us</h4>
+                <a href="#" class="text-light" style="text-decoration: none;">Facebook</a><br>
+                <a href="#" class="text-light" style="text-decoration: none;">Twitter</a><br>
+                <a href="#" class="text-light" style="text-decoration: none;">LinkedIn</a>
+            </div>
+        </div>
+        <hr>
+        <div class="text-center">
+            &copy; 2023 MedTech. All rights reserved.
+        </div>
+    </div>
+</footer>
+
+
+    <!-- Bootstrap Bundle with Popper -->
+    <!-- Bootstrap Bundle with Popper -->
+    <!-- jQuery (required for Bootstrap) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>
